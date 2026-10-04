@@ -1,87 +1,70 @@
 const express = require('express');
 const http = require('http');
-const server = http.createServer();
-const app = express();
-
-app.use(express.static(__dirname));  
-
-app.get('/', function(req, res) {
-    res.sendFile('index.html', {root: __dirname});
-});
-
-server.on('request', app);
-server.listen(3000, function() { console.log('server started on port 3000'); });
-
-
-
-
-/** Begin websocket */
+const path = require('path');
 const WebSocketServer = require('ws').Server;
+const sqlite = require('sqlite3');
 
-const wss = new WebSocketServer({server: server});
+const PORT = process.env.PORT || 3000;
 
-process.on('SIGINT', () => {
-    console.log('sigint');
-    wss.clients.forEach(function each(client) {
-        client.close();
-    });
-    server.close(() => {
-        shutdownDB();
-    })
-})
-
-
-wss.on('connection', function connection(ws) {
-    const numClients = wss.clients.size;
-    console.log('Clients connected', numClients);
-
-    wss.broadcast(`Current visitors: ${numClients}`);
-
-    if (ws.readyState === ws.OPEN) {
-        ws.send('Welcome to my server');
-    }
-
-    db.run(`INSERT INTO visitors (count, time)
-        VALUES (${numClients}, datetime('now'))
-    `);
-
-    ws.on('close', function close() {
-        wss.broadcast(`Current visitors: ${numClients}`);
-        console.log('A client has disconnected');
-    });
-
+/** ---------- database ---------- */
+const db = new sqlite.Database(':memory:');
+db.serialize(() => {
+  db.run('CREATE TABLE visitors (count INTEGER, time TEXT)');
 });
+
+function shutdownDB(done) {
+  console.log('Shutting down db');
+  db.each('SELECT * FROM visitors', (err, row) => {
+    if (!err) console.log(row);
+  }, () => db.close(done));
+}
+
+/** ---------- http ---------- */
+const app = express();
+// Only the "public" folder is reachable from the browser,
+// so index-ws.js, package.json, etc. are never downloadable.
+app.use(express.static(path.join(__dirname, 'public')));
+
+const server = http.createServer(app);
+
+/** ---------- websocket ---------- */
+const wss = new WebSocketServer({ server, maxPayload: 1024 });
 
 wss.broadcast = function broadcast(data) {
-    wss.clients.forEach(function each(client) {
-        client.send(data);
-    });
+  wss.clients.forEach((client) => {
+    if (client.readyState === client.OPEN) client.send(data);
+  });
+};
+
+function broadcastVisitors() {
+  wss.broadcast(JSON.stringify({ visitors: wss.clients.size }));
 }
 
-/** end websockets */
-/** begin database */
-const sqlite = require('sqlite3');
-const db = new sqlite.Database(':memory:');
+wss.on('connection', (ws) => {
+  const count = wss.clients.size;
+  console.log('Clients connected', count);
+  broadcastVisitors();
 
-db.serialize(() => {
-    db.run(`
-        CREATE TABLE visitors (
-            count INTEGER,
-            time TEXT
-        )
-    `)
+  db.run("INSERT INTO visitors (count, time) VALUES (?, datetime('now'))", [count], (err) => {
+    if (err) console.error('db insert failed:', err.message);
+  });
+
+  ws.on('close', () => {
+    console.log('A client has disconnected');
+    broadcastVisitors();   // current size, not the stale count from connect time
+  });
+  ws.on('error', (err) => console.error('ws error:', err.message));
 });
 
-function getCounts() {
-    db.each("SELECT * FROM visitors", (err, row) => {
-        console.log(row);
-    });
+/** ---------- start / stop ---------- */
+// 127.0.0.1: only nginx (same machine) can reach Node directly
+server.listen(PORT, '127.0.0.1', () => console.log(`server started on port ${PORT}`));
+
+function shutdown(signal) {
+  console.log(signal);
+  wss.clients.forEach((client) => client.close());
+  server.close(() => shutdownDB(() => process.exit(0)));
+  setTimeout(() => process.exit(1), 5000).unref();   // don't hang forever
 }
-
-function shutdownDB() {
-    console.log('Shutting down db');
-
-    getCounts();
-    db.close();
-
-}
+process.on('SIGINT', () => shutdown('SIGINT'));
+process.on('SIGTERM', () => shutdown('SIGTERM'));

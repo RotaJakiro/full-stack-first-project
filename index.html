@@ -1,48 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"> 
-    <title>Word Masters</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Word Masters</title>
 </head>
 <body>
-    <div class="header">
-        <h1 class="rainbow-boi">Word Masters</h1>
-    </div>
-    <div class="logo">🌀</div>
-    <div class="main-grid">
-        <div class="letter-box 1"></div>
-        <div class="letter-box 2"></div>
-        <div class="letter-box 3"></div>
-        <div class="letter-box 4"></div>
-        <div class="letter-box 5"></div>
-        <div class="letter-box 6"></div>
-        <div class="letter-box 7"></div>
-        <div class="letter-box 8"></div>
-        <div class="letter-box 9"></div>
-        <div class="letter-box 10"></div>
-        <div class="letter-box 11"></div>
-        <div class="letter-box 12"></div>
-        <div class="letter-box 13"></div>
-        <div class="letter-box 14"></div>
-        <div class="letter-box 15"></div>
-        <div class="letter-box 16"></div>
-        <div class="letter-box 17"></div>
-        <div class="letter-box 18"></div>
-        <div class="letter-box 19"></div>
-        <div class="letter-box 20"></div>
-        <div class="letter-box 21"></div>
-        <div class="letter-box 22"></div>
-        <div class="letter-box 23"></div>
-        <div class="letter-box 24"></div>
-        <div class="letter-box 25"></div>
-        <div class="letter-box 26"></div>
-        <div class="letter-box 27"></div>
-        <div class="letter-box 28"></div>
-        <div class="letter-box 29"></div>
-        <div class="letter-box 30"></div>
-    </div>
-    <script src="script.js"></script>
+  <header class="header">
+    <h1 id="title">Word Masters</h1>
+    <p class="visitors">Players online: <span id="visitors">-</span></p>
+  </header>
+  <div class="logo" id="spinner" aria-hidden="true">🌀</div>
+  <p id="status" role="status"></p>
+  <main class="main-grid" id="grid"></main>
+  <script src="script.js"></script>
 </body>
 </html>
