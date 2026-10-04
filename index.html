@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee Masters</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet"/>
+
+</head>
+<body>
+  <nav class="main-nav">
+    <h1 class="page-title">
+      <img class="logo-size" src="/img/coffee_masters_logo.png" alt="coffee masters logo" />
+      Coffee Masters
+    </h1>
+</nav>
+  <div class="page">
+    <div class="order-box">
+  <h5>ITEMS</h5>
+  <div class="order-item">
+    <span class="item-qty">1x</span>
+    <div class="item-details">
+      <div class="item-line">
+        <span class="item-name">Cappucino</span>
+        <span class="item-price">$6.00</span>
+      </div>
+      <div class="item-mod">Light Foam</div>
+    </div>
+  </div>
+  <div class="order-item">
+    <span class="item-qty">1x</span>
+    <div class="item-details">
+      <div class="item-line">
+        <span class="item-name">Cappucino</span>
+        <span class="item-price">$7.90</span>
+      </div>
+      <div class="item-mod">Almond Milk</div>
+      <div class="item-mod">Double Espresso Shot</div>
+    </div>
+  </div>
+  <div class="order-item">
+    <span class="item-qty">1x</span>
+    <div class="item-details">
+      <div class="item-line">
+        <span class="item-name">Croissant</span>
+        <span class="item-price">$5.37</span>
+      </div>
+      <div class="item-mod">Butter</div>
+    </div>
+  </div>
+</div>
+    <div class="personal-info">
+      <div class="name-box">
+      <h5>NAME</h5>
+      <div class="example-group">
+        <label class="input-label" for="name">Name for order</label>
+        <input type="text" id="name" class="example-input">
+      </div>
+      </div>
+<div class="payment-box">
+  <h5>PAYMENT</h5>
+  <div class="example-group">
+    <label class="input-label" for="cc">Card number</label>
+    <input type="text" id="cc" class="example-input">
+  </div>
+  <br>
+  <div class="example-group ccv-group">
+    <label class="input-label" for="ccv">CCV number</label>
+    <input type="text" id="ccv" class="example-input">
+  </div>
+</div>
+</div>
+  </div>
+<table class="total-box">
+  <tr class="total-row">
+    <td>Subtotal:</td>
+    <td>$19.27</td>
+  </tr>
+  <tr class="total-row">
+    <td>Tax:</td>
+    <td>$0.96</td>
+  </tr>
+  <tr class="total-row">
+    <td>Total:</td>
+    <td>$20.23</td>
+  </tr>
+</table>
+  </div>
+  <button class="button-wrapper">Place order</button>
+
+
+  <script>
+    let ws;
+    const proto = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    ws=new WebSocket(`${proto}://${window.location.host}`)
+
+    ws.onmessage=(event)=>{console.log(event.data)}
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #efefef;
+  font-family: 'Open Sans', sans-serif;
+}
+.page{
+  display: grid;
+  margin: 20px;
+  padding: 20px;
+  grid-template-areas:
+  "order-box personal-info"
+  "total-box total-box";
+  grid-template-columns: 1fr 1fr;
+}
+.main-nav{
+  background-color: #43281c;
+  color: #fbf2c0;
+  display: flex;
+  justify-content: center;
+}
+.logo-size{
+  height: 30px;
+  width: 30px;
+  position: relative;
+}
+.order-box{
+  background-color: #eee1d5;
+  margin-right: 60px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.order-box h5 {
+  color: #885a2d;
+  font-weight: normal;
+  margin: 0 0 15px 0;
+}
+
+.order-item {
+  display: flex;
+  gap: 15px;
+  padding: 15px 0;
+  border-bottom: 1px solid #c9a877;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+.item-name {
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.item-price {
+  font-weight: bold;
+  color: #1a1a1a;
+}
+
+.item-mod {
+  color: #a67c52;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+
+.name-box{
+  background-color: #eee1d5 ;
+  padding: 20px;
+  border-radius: 10px;
+}
+.payment-box{
+  margin-top: 10px;
+  background-color: #eee1d5 ;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-top: 5px;
+  border-radius: 10px;
+  padding-bottom: 50px;
+}
+
+.name-box h5 {
+  color: #885a2d;
+  font-weight: normal;
+  margin: 0 0 15px 0;
+}
+
+.example-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.example-input {
+  background-color: rgba(0,0,0,0);
+  border: 2px #885a2d solid;
+  padding: 8px;
+  border-radius: 100px;
+  width: 100%;
+  text-indent: 18px;
+  font-size: 18px;
+  box-sizing: border-box;
+}
+
+.input-label {
+  color: #885a2d;
+  background-color: #eee1d5;
+  font-size: 11px;
+  position: absolute;
+  left: 25px;
+  top: -7px;       
+  padding: 0 4px;
+}
+.payment-box h5 {
+    color: #885a2d;
+  font-weight: normal;
+  margin: 0 0 15px 0;
+}
+.ccv-group {
+  width: 200px; 
+}
+
+.total-box {
+  width: 100%;
+  max-width: 400px;
+  background-color: #eeee ;
+  padding: 15px 20px;
+  border-collapse: separate;
+  border-spacing: 0 30px; 
+  font-family: Arial, sans-serif;
+  margin-left: 500px;
+}
+.total-box td {
+  padding: 0;
+}
+.total-box td:first-child {
+  text-align: left;
+}
+.total-box td:last-child {
+  text-align: right;
+}
+.total-box tr:last-child td {
+  font-weight: bold;
+}
+.button-wrapper {
+  background-color: #deb993;
+  padding: 7px ;
+  width: 1520px;
+  border-radius: 150px;
+  font-size: 16px;
+}
